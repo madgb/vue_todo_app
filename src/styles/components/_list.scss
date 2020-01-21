@@ -1,0 +1,28 @@
+.list {
+    display: flex;
+    flex-flow: row wrap;
+    width: 30%;
+    margin: 0 auto;
+    padding: 0 0 3rem 0;
+
+    .achieved {
+        text-decoration: line-through;
+    }
+    .label {
+        width: 100px;
+        height: 7px;
+        border-radius: 15px;
+        position: absolute;
+        top: 0;
+    }
+    ul {
+        width: 100%;
+        padding: 3rem 0;
+        
+        li {
+            padding: 1rem 0 0 0;
+            position: relative;
+            margin: 0 0 2rem 0;
+        }
+    }
+}

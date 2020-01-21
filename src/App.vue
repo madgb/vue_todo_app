@@ -1,17 +1,48 @@
 <template>
     <div id="app">
-        <img alt="Vue logo" src="./assets/logo.png" />
-        <HelloWorld msg="Welcome to Your Vue.js App" />
+        <List :tasks="tasks" />
     </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import List from "./components/List.vue";
 
 export default {
-    name: "app",
+	name: "app",
+	data: () => ({
+		tasks: [
+			{
+				title: 'First todo',
+				detail: 'lore ipsum lore ipsum lore ipsum lore ipsum lore ipsum',
+				achieved: false,
+				dueDate: null,
+				label: 1,
+			},
+			{
+				title: 'Second todo',
+				detail: 'lore ipsum lore ipsum lore ipsum lore ipsum lore ipsum',
+				achieved: false,
+				dueDate: null,
+				label: 2,
+			},
+			{
+				title: 'Third todo',
+				detail: 'lore ipsum lore ipsum lore ipsum lore ipsum lore ipsum',
+				achieved: false,
+				dueDate: null,
+				label: 3,
+			},
+			{
+				title: 'Fourth todo',
+				detail: 'lore ipsum lore ipsum lore ipsum lore ipsum lore ipsum',
+				achieved: false,
+				dueDate: null,
+				label: 4,
+			}
+		]
+	}),
     components: {
-        HelloWorld
+        List
     }
 };
 </script>
