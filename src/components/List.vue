@@ -1,36 +1,55 @@
 <template>
-    <div class="list">
+    <div class="list" @click="closeModal">
         <ul>
             <li v-for="(task, index) in tasklist" :key="index">
-                <div :class="task.achieved && 'achieved'">
+                <div :class="[task.achieved && 'achieved', 'list-inner']">
+                    <button class="remove-button" @click.prevent="removeTask(index)">
+                        <FontAwesomeIcon icon="times" />
+                    </button>
                     <h3>{{ task.title }}</h3>
                     <div>{{ task.detail }}</div>
                     <div>{{ task.dueDate }}</div>
-                    <div :class="renderLabel(task.label)"></div>
-                    <div>
+                    <div :class="handleLabel(task.label)"></div>
+                    <div class="inner-btn-wrapper">
                         <button @click.prevent="achieveTask(index)">Achieve</button>
-                        <button @click.prevent="removeTask(index)">Remove</button>
+                        <button @click.prevent="editCurrTask(index)">Edit</button>
                     </div>
                 </div>
             </li>
         </ul>
-        <div>
-            <button @click.prevent="popCreateModal">New Task</button>
+        <div class="btn-wrapper">
+            <button id="new-task" @click.prevent="popCreateModal">New Task</button>
         </div>
-        <CreateModal v-if="createModal" :addTask="addTask" :toggleModal="popCreateModal"/>
+        <CreateModal 
+            v-if="createModal" 
+            :addTask="addTask" 
+            :toggleModal="popCreateModal"
+            :editTask="editTask"
+            :existingTask="existingTask"
+            :saveEditTask="saveEditTask"
+        />
     </div>
 </template>
 
 <script>
 
 import CreateModal from "./CreateModal";
+import { renderLabel } from "../assets/helper.js";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+library.add(faTimes);
 
 export default {
     name: "List",
     data: () => ({
         tasklist: [],
         createModal: false,
-        title: ""
+        title: "",
+        editTask: false,
+        existingTask: null,
+        editIndex: null
     }),
     props: {
         tasks: Array
@@ -42,42 +61,52 @@ export default {
         achieveTask(index) {
             this.tasklist[index].achieved = !this.tasklist[index].achieved
         },
+        editCurrTask(index) {
+            const currTask = this.tasklist[index];
+
+            this.editTask = true;
+            this.existingTask = currTask;
+            this.editIndex = index;
+
+            this.popCreateModal();
+        },
+        saveEditTask(task) {
+            this.tasklist[this.editIndex] = task;
+            this.initEditState();
+        },
+        initEditState() {
+            this.editTask = false;
+            this.existingTask = null;
+            this.editIndex = null;
+        },
         popCreateModal() {
             this.createModal = !this.createModal;
+        },
+        closeModal(event) {
+            if(this.createModal && event.target.id ==='veil') {
+                this.initEditState();
+                this.createModal = false;
+            }
         },
         addTask(task) {
             this.tasklist.push(task);
         },
         removeTask(index) {
-            const confirm = window.confirm("Remove the task?");
+            const confirm = window.confirm('Remove the task?');
             if(confirm) {
                 this.tasklist.splice(index, 1);
             }
         },
-        renderLabel(labelIndex) {
-            const index = Number(labelIndex);
-            if(index === 1) {
-                return 'red-bg label';
-            }
-            if(index === 2) {
-                return 'yellow-bg label';
-            }
-            if(index === 3) {
-                return 'orange-bg label';
-            }
-            if(index === 4) {
-                return 'purple-bg label';
-            }
-            if(index === 5) {
-                return 'blue-bg label';
-            }
+        handleLabel(index) {
+            return renderLabel(index);
         }
     },
     created() {
         this.getTasksFromProps();
     },
     components: {
-        CreateModal
+        CreateModal,
+        FontAwesomeIcon
     }
 };
 </script>

@@ -2,27 +2,79 @@
     display: flex;
     flex-flow: row wrap;
     width: 30%;
-    margin: 0 auto;
-    padding: 0 0 3rem 0;
+    min-width: 450px;
+    margin: 2rem auto;
+    padding: 3rem;
+    background: #fff;
+
+    .list-inner {
+        position: relative;
+        border-bottom: 1px solid #d6d6d6;
+        padding-bottom: 1rem;
+
+        h3 {
+            font-weight: 700;
+            padding: 20px 0 10px;
+            font-size: 1.2rem;
+        }
+
+        & > div {
+            margin-bottom: 10px;
+        }
+
+        .inner-btn-wrapper {
+            display: flex;
+            justify-content: space-between;
+
+            button {
+                width: 20%;
+                padding: 5px;
+                background: #fff;
+                -webkit-appearance: none;
+                font-size: 0.8rem;
+                border-radius: 5px;
+            }
+        }
+
+        .remove-button {
+            position: absolute;
+            right: 0;
+            -webkit-appearance: none;
+            border: none;
+            font-size: 1rem;
+        }
+    }
 
     .achieved {
         text-decoration: line-through;
     }
     .label {
-        width: 100px;
-        height: 7px;
+        width: 50px;
+        height: 9px;
         border-radius: 15px;
         position: absolute;
         top: 0;
     }
     ul {
         width: 100%;
-        padding: 3rem 0;
-        
+
         li {
             padding: 1rem 0 0 0;
             position: relative;
             margin: 0 0 2rem 0;
+        }
+    }
+    .btn-wrapper {
+        width: 100%;
+
+        button {
+            border: none;
+            width: 100%;
+            background-color: #3a86ff;
+            color: #fff;
+            padding: 1rem;
+            border-radius: 5px;
+            font-size: 1rem;
         }
     }
 }
