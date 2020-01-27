@@ -11,6 +11,10 @@
         margin: 4rem auto;
         position: relative;
 
+        @media(max-width: $md) {
+            width: 90%;
+        }
+
         .close-btn {
             position: absolute;
             top: 13px;
@@ -51,6 +55,36 @@
             select {
                 font-size: 1rem;
                 margin-left: 1rem;
+            }
+        }
+
+        .due-date {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+
+            .tag {
+                margin-right: 1rem;
+            }
+
+            .date-picker {
+                & > span > input {
+                    margin: 0;
+                }
+                
+                .vc-popover-content-wrapper {
+                    @media(max-width: $sm) {
+                        transform: translate(-50%, -50%) !important;
+                        top: 50% !important;
+                        left: 50% !important;
+                    }
+                }
+
+                .vc-popover-caret {
+                    @media(max-width: $sm) {
+                        display: none;
+                    }
+                }
             }
         }
 

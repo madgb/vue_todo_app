@@ -16,3 +16,7 @@ export function renderLabel(labelIndex) {
         return 'blue-bg label';
     }
 }
+
+export const renderDate = rawDate => `${rawDate.getFullYear()}-${(rawDate.getMonth() + 1)}-${rawDate.getDate()}`;
+
+export const renderDueDate = date => date >= new Date();

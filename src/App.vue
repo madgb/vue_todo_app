@@ -15,7 +15,7 @@ export default {
 				title: 'First todo',
 				detail: 'lore ipsum lore ipsum lore ipsum lore ipsum lore ipsum',
 				achieved: false,
-				dueDate: null,
+				dueDate: new Date(),
 				label: 1,
 			},
 			{

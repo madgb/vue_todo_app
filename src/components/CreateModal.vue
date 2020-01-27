@@ -18,6 +18,17 @@
                         <option value="5">Blue</option>
                     </select>
                 </div>
+                <div class="due-date">
+                    <span class="tag">Due Date</span>
+                    <span class="date-picker">
+                        <DatePicker 
+                            :value="Date" 
+                            v-model="task.dueDate" 
+                            :popover="{ visibility: 'click' }"
+                            placement="auto"
+                        />
+                    </span>
+                </div>
                 <div class="btn-wrapper">
                     <button type="submit">{{ this.$props.editTask ? 'Done' : 'Create Task'}}</button>
                 </div>
@@ -31,6 +42,7 @@ import { defaultTaskForm } from "../assets/general.json";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import DatePicker from 'v-calendar/lib/components/date-picker.umd';
 
 library.add(faTimes);
 
@@ -47,7 +59,8 @@ export default {
         saveEditTask: Function
     },
     components: {
-        FontAwesomeIcon
+        FontAwesomeIcon,
+        DatePicker
     },
     methods: {
         setDefaultTask() {
