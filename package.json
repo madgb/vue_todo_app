@@ -2,6 +2,10 @@
   "name": "vue_todo_app",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "11.15.0",
+    "yarn": "1.16.0"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
