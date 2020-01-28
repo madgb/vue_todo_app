@@ -21,16 +21,16 @@
                 <div class="due-date">
                     <span class="tag">Due Date</span>
                     <span class="date-picker">
-                        <DatePicker 
-                            :value="Date" 
-                            v-model="task.dueDate" 
+                        <DatePicker
+                            :value="Date"
+                            v-model="task.dueDate"
                             :popover="{ visibility: 'click' }"
                             placement="auto"
                         />
                     </span>
                 </div>
                 <div class="btn-wrapper">
-                    <button type="submit">{{ this.$props.editTask ? 'Done' : 'Create Task'}}</button>
+                    <button type="submit">{{ this.$props.editTask ? "Done" : "Create Task" }}</button>
                 </div>
             </form>
         </div>
@@ -42,7 +42,7 @@ import { defaultTaskForm } from "../assets/general.json";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import DatePicker from 'v-calendar/lib/components/date-picker.umd';
+import DatePicker from "v-calendar/lib/components/date-picker.umd";
 
 library.add(faTimes);
 
@@ -75,7 +75,7 @@ export default {
             this.$props.toggleModal();
         },
         handleSubmit() {
-            if(!this.$props.editTask) {
+            if (!this.$props.editTask) {
                 this.$props.addTask(this.task);
             } else {
                 this.$props.saveEditTask(this.task);
@@ -84,7 +84,7 @@ export default {
         }
     },
     mounted() {
-        if(!this.$props.editTask) {
+        if (!this.$props.editTask) {
             this.setDefaultTask();
         } else {
             this.setExistingTask();

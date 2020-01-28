@@ -90,7 +90,7 @@ export default {
         },
         achieveTask(index) {
             this.tasklist[index].achieved = !this.tasklist[index].achieved;
-            if(!this.sampleView) {
+            if (!this.sampleView) {
                 const stringifiedTask = JSON.stringify(this.tasklist);
                 localStorage.setItem("vueTodoTasks", stringifiedTask);
             }
@@ -106,7 +106,7 @@ export default {
         },
         saveEditTask(task) {
             this.tasklist[this.editIndex] = task;
-            if(!this.sampleView) {
+            if (!this.sampleView) {
                 const stringifiedTask = JSON.stringify(this.tasklist);
                 localStorage.setItem("vueTodoTasks", stringifiedTask);
             }
@@ -128,7 +128,7 @@ export default {
         },
         addTask(task) {
             this.tasklist.push(task);
-            if(!this.sampleView) {
+            if (!this.sampleView) {
                 const stringifiedTask = JSON.stringify(this.tasklist);
                 localStorage.setItem("vueTodoTasks", stringifiedTask);
             }
@@ -137,7 +137,7 @@ export default {
             const confirm = window.confirm("Remove the task?");
             if (confirm) {
                 this.tasklist.splice(index, 1);
-                if(!this.sampleView) {
+                if (!this.sampleView) {
                     const stringifiedTask = JSON.stringify(this.tasklist);
                     localStorage.setItem("vueTodoTasks", stringifiedTask);
                 }
