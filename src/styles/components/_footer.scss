@@ -5,4 +5,8 @@
     width: 30%;
     min-width: 450px;
     margin: 0 auto;
+
+    @media (max-width: $md) {
+        min-width: 100%;
+    }
 }
