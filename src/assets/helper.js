@@ -20,3 +20,13 @@ export function renderLabel(labelIndex) {
 export const renderDate = rawDate => `${rawDate.getFullYear()}-${(rawDate.getMonth() + 1)}-${rawDate.getDate()}`;
 
 export const renderDueDate = date => date >= new Date();
+
+export const renderStringifyDate = (tasksArr) => {
+    tasksArr.forEach(task => task.dueDate && (task.dueDate = `\"${task.dueDate}\"`));
+    return tasksArr;
+};
+
+export const renderParseDate = (tasksArr) => {
+    tasksArr.forEach(task => task.dueDate && (task.dueDate = new Date(task.dueDate)));
+    return tasksArr;
+};

@@ -1,5 +1,9 @@
 <template>
     <div class="list" @click="closeModal">
+        <div class="demo" v-if="sampleView">
+            <h3>Demo Play</h3>
+            <p>Please remove the examples before use the app</p>
+        </div>
         <ul>
             <li v-for="(task, index) in tasklist" :key="index">
                 <div :class="[task.achieved && 'achieved', 'list-inner']">
@@ -42,7 +46,8 @@
 
 <script>
 import CreateModal from "./CreateModal";
-import { renderLabel, renderDate, renderDueDate } from "../assets/helper.js";
+import { renderLabel, renderDate, renderDueDate, renderStringifyDate, renderParseDate } from "../assets/helper.js";
+import { dummyTasks } from "../assets/general.json";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
@@ -58,17 +63,37 @@ export default {
         title: "",
         editTask: false,
         existingTask: null,
-        editIndex: null
+        editIndex: null,
+        sampleView: false
     }),
     props: {
-        tasks: Array
+        sampleData: Array
+    },
+    watch: {
+        sampleData() {
+            if (this.sampleData) {
+                this.tasklist = this.sampleData;
+                this.sampleView = true;
+            } else {
+                this.sampleView = false;
+            }
+        }
     },
     methods: {
-        getTasksFromProps() {
-            this.tasklist = this.$props.tasks;
+        getTasksFromStorage() {
+            const tasksFromStorage = localStorage.getItem("vueTodoTasks");
+
+            if (tasksFromStorage) {
+                const parsed = JSON.parse(tasksFromStorage);
+                this.tasklist = this.handleParseDate(parsed);
+            }
         },
         achieveTask(index) {
             this.tasklist[index].achieved = !this.tasklist[index].achieved;
+            if(!this.sampleView) {
+                const stringifiedTask = JSON.stringify(this.tasklist);
+                localStorage.setItem("vueTodoTasks", stringifiedTask);
+            }
         },
         editCurrTask(index) {
             const currTask = this.tasklist[index];
@@ -81,6 +106,10 @@ export default {
         },
         saveEditTask(task) {
             this.tasklist[this.editIndex] = task;
+            if(!this.sampleView) {
+                const stringifiedTask = JSON.stringify(this.tasklist);
+                localStorage.setItem("vueTodoTasks", stringifiedTask);
+            }
             this.initEditState();
         },
         initEditState() {
@@ -99,11 +128,19 @@ export default {
         },
         addTask(task) {
             this.tasklist.push(task);
+            if(!this.sampleView) {
+                const stringifiedTask = JSON.stringify(this.tasklist);
+                localStorage.setItem("vueTodoTasks", stringifiedTask);
+            }
         },
         removeTask(index) {
             const confirm = window.confirm("Remove the task?");
             if (confirm) {
                 this.tasklist.splice(index, 1);
+                if(!this.sampleView) {
+                    const stringifiedTask = JSON.stringify(this.tasklist);
+                    localStorage.setItem("vueTodoTasks", stringifiedTask);
+                }
             }
         },
         handleLabel(index) {
@@ -114,10 +151,16 @@ export default {
         },
         handleDueDate(date) {
             return renderDueDate(date);
+        },
+        handleStringifyDate(tasks) {
+            return renderStringifyDate(tasks);
+        },
+        handleParseDate(tasks) {
+            return renderParseDate(tasks);
         }
     },
-    created() {
-        this.getTasksFromProps();
+    mounted() {
+        this.getTasksFromStorage();
     },
     components: {
         CreateModal,

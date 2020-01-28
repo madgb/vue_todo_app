@@ -5,5 +5,35 @@
         "achieved": false,
         "dueDate": null,
         "label": 1
-    }
+    },
+    "dummyTasks": [
+        {
+            "title": "First todo",
+            "detail": "lore ipsum lore ipsum lore ipsum lore ipsum lore ipsum",
+            "achieved": false,
+            "dueDate": "Mon Jan 27 2020 13:44:06 GMT-0500 (Eastern Standard Time)",
+            "label": 1
+        },
+        {
+            "title": "Second todo",
+            "detail": "lore ipsum lore ipsum lore ipsum lore ipsum lore ipsum",
+            "achieved": false,
+            "dueDate": "Mon Jan 20 2020 13:44:06 GMT-0500 (Eastern Standard Time)",
+            "label": 2
+        },
+        {
+            "title": "Third todo",
+            "detail": "lore ipsum lore ipsum lore ipsum lore ipsum lore ipsum",
+            "achieved": true,
+            "dueDate": null,
+            "label": 3
+        },
+        {
+            "title": "Fourth todo",
+            "detail": "lore ipsum lore ipsum lore ipsum lore ipsum lore ipsum",
+            "achieved": false,
+            "dueDate": "Mon Jan 27 2030 13:44:06 GMT-0500 (Eastern Standard Time)",
+            "label": 4
+        }
+    ]
 }
