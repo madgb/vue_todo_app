@@ -119,6 +119,7 @@ export default {
         },
         popCreateModal() {
             this.createModal = !this.createModal;
+            this.initEditState();
         },
         closeModal(event) {
             if (this.createModal && event.target.id === "veil") {
