@@ -49,6 +49,7 @@
 
 <script>
 import { defaultTaskForm } from "../assets/general.json";
+import { renderValidationErrors, validationChecker } from "../assets/helper.js";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -90,21 +91,8 @@ export default {
             this.$props.toggleModal();
         },
         handleSubmit() {
-            if (!this.validation.date || !this.validation.title || !this.validation.detail) {
-                const errorArr = [
-                    {
-                        errorCheck: this.validation.date,
-                        name: "dateError"
-                    },
-                    {
-                        errorCheck: this.validation.title,
-                        name: "titleError"
-                    },
-                    {
-                        errorCheck: this.validation.detail,
-                        name: "detailError"
-                    }
-                ];
+            if (!validationChecker(this.validation)) {
+                const errorArr = renderValidationErrors(this.validation);
                 errorArr.forEach(eachError => !eachError.errorCheck && this.emphasizeError(eachError.name));
                 return;
             }
