@@ -85,7 +85,25 @@
                         display: none;
                     }
                 }
+
+                &.wrong-value > span > input {
+                    background-color: lighten($orange, 30%);
+                    color: $red;
+                }
             }
+        }
+
+        .validate-value {
+            margin: 0 0 0.5rem 0;
+            font-weight: 700;
+            color: $red;
+            transition: 0.2s ease;
+        }
+
+        .emphasize-error {
+            border: 2px solid currentColor;
+            padding: 3px;
+            border-radius: 3px;
         }
 
         .btn-wrapper {
