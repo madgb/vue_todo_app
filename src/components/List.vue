@@ -46,7 +46,7 @@
 
 <script>
 import CreateModal from "./CreateModal";
-import { renderLabel, renderDate, renderDueDate, renderStringifyDate, renderParseDate } from "../assets/helper.js";
+import { renderLabel, renderDate, renderDueDate, renderParseDate } from "../assets/helper.js";
 import { dummyTasks } from "../assets/general.json";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -154,9 +154,6 @@ export default {
         },
         handleDueDate(date) {
             return renderDueDate(date);
-        },
-        handleStringifyDate(tasks) {
-            return renderStringifyDate(tasks);
         },
         handleParseDate(tasks) {
             return renderParseDate(tasks);

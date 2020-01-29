@@ -21,11 +21,6 @@ export const renderDate = rawDate => `${rawDate.getFullYear()}-${rawDate.getMont
 
 export const renderDueDate = date => date >= new Date();
 
-export const renderStringifyDate = tasksArr => {
-    tasksArr.forEach(task => task.dueDate && (task.dueDate = `\"${task.dueDate}\"`));
-    return tasksArr;
-};
-
 export const renderParseDate = tasksArr => {
     tasksArr.forEach(task => task.dueDate && (task.dueDate = new Date(task.dueDate)));
     return tasksArr;

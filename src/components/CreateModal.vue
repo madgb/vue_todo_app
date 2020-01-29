@@ -99,7 +99,7 @@ export default {
 
             this.formValidate();
 
-            if (!this.validation.date || !this.validation.title || !this.validation.detail) {
+            if (!validationChecker(this.validation)) {
                 return;
             }
             if (!this.$props.editTask) {
