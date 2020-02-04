@@ -1,7 +1,7 @@
 <template>
     <div id="app">
-        <List :sampleData="sampleData" />
-        <Footer :getSampleData="handleSampleData" />
+        <List  />
+        <Footer  />
     </div>
 </template>
 
@@ -13,18 +13,6 @@ import Footer from "./components/Footer.vue";
 
 export default {
     name: "app",
-    data: () => ({
-        sampleData: null
-    }),
-    methods: {
-        handleSampleData() {
-            const sample = this.handleParseDate(dummyTasks);
-            this.sampleData = sample;
-        },
-        handleParseDate(tasks) {
-            return renderParseDate(tasks);
-        }
-    },
     components: {
         List,
         Footer

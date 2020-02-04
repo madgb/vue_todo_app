@@ -6,15 +6,12 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
     name: "Footer",
-    props: {
-        getSampleData: Function
-    },
     methods: {
-        handleSampleData() {
-            return this.$props.getSampleData();
-        },
+        ...mapActions(["handleSampleData"]),
         removeExampleView() {
             location.reload();
         }

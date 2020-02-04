@@ -3,7 +3,7 @@
         <div id="veil" class="veil"></div>
         <div class="inner">
             <form @submit.prevent="handleSubmit">
-                <button class="close-btn" type="button" @click.prevent="closeModal">
+                <button class="close-btn" type="button" @click.prevent="toggleModal">
                     <FontAwesomeIcon icon="times" />
                 </button>
                 <input v-model="task.title" @input="formValidate" placeholder="Title" />
@@ -40,7 +40,7 @@
                     Due date cannot be in the past
                 </div>
                 <div class="btn-wrapper">
-                    <button type="submit">{{ this.$props.editTask ? "Done" : "Create Task" }}</button>
+                    <button type="submit">{{ this.editTask ? "Done" : "Create Task" }}</button>
                 </div>
             </form>
         </div>
@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import { mapState, mapGetter, mapActions } from "vuex";
 import { defaultTaskForm } from "../assets/general.json";
 import { renderValidationErrors, validationChecker } from "../assets/helper.js";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -67,28 +68,22 @@ export default {
             date: true
         }
     }),
-    props: {
-        addTask: Function,
-        toggleModal: Function,
-        editTask: Boolean,
-        existingTask: Object,
-        saveEditTask: Function
-    },
     components: {
         FontAwesomeIcon,
         DatePicker
     },
+    computed: {
+        ...mapState(["editTask", "tasklist", "existingTask"])
+    },
     methods: {
+        ...mapActions(["toggleModal", "getTasksFromStorage", "initEditState", "addTask", "saveEditTask"]),
         setDefaultTask() {
             const defaultForm = { ...defaultTaskForm };
             this.task = defaultForm;
         },
         setExistingTask() {
-            const newTask = { ...this.$props.existingTask };
+            const newTask = { ...this.existingTask };
             this.task = newTask;
-        },
-        closeModal() {
-            this.$props.toggleModal();
         },
         handleSubmit() {
             if (!validationChecker(this.validation)) {
@@ -102,12 +97,12 @@ export default {
             if (!validationChecker(this.validation)) {
                 return;
             }
-            if (!this.$props.editTask) {
-                this.$props.addTask(this.task);
+            if (!this.editTask) {
+                this.addTask(this.task);
             } else {
-                this.$props.saveEditTask(this.task);
+                this.saveEditTask(this.task);
             }
-            this.closeModal();
+            this.toggleModal();
         },
         formValidate() {
             const { title, detail, dueDate } = this.task;
@@ -125,7 +120,7 @@ export default {
         }
     },
     mounted() {
-        if (!this.$props.editTask) {
+        if (!this.editTask) {
             this.setDefaultTask();
         } else {
             this.setExistingTask();

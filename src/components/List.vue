@@ -5,7 +5,7 @@
             <p>Please remove the examples before use the app</p>
         </div>
         <ul>
-            <li v-for="(task, index) in tasklist" :key="index">
+            <li v-for="(task, index) in currTaskList" :key="index">
                 <div :class="[task.achieved && 'achieved', 'list-inner']">
                     <button class="remove-button" @click.prevent="removeTask(index)">
                         <FontAwesomeIcon icon="times" />
@@ -33,20 +33,14 @@
         <div class="btn-wrapper">
             <button id="new-task" @click.prevent="popCreateModal">New Task</button>
         </div>
-        <CreateModal
-            v-if="createModal"
-            :addTask="addTask"
-            :toggleModal="popCreateModal"
-            :editTask="editTask"
-            :existingTask="existingTask"
-            :saveEditTask="saveEditTask"
-        />
+        <CreateModal v-if="createModal" />
     </div>
 </template>
 
 <script>
+import { mapState, mapGetter, mapActions } from "vuex";
 import CreateModal from "./CreateModal";
-import { renderLabel, renderDate, renderDueDate, renderParseDate } from "../assets/helper.js";
+import { renderLabel, renderDate, renderDueDate } from "../assets/helper.js";
 import { dummyTasks } from "../assets/general.json";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -58,21 +52,16 @@ library.add(faTimes, faClock);
 export default {
     name: "List",
     data: () => ({
-        tasklist: [],
-        createModal: false,
-        title: "",
-        editTask: false,
-        existingTask: null,
-        editIndex: null,
+        currTaskList: [],
         sampleView: false
     }),
-    props: {
-        sampleData: Array
+    computed: {
+        ...mapState(["createModal", "tasklist", "sampleData"])
     },
     watch: {
         sampleData() {
             if (this.sampleData) {
-                this.tasklist = this.sampleData;
+                this.currTaskList = this.sampleData;
                 this.sampleView = true;
             } else {
                 this.sampleView = false;
@@ -80,70 +69,27 @@ export default {
         }
     },
     methods: {
-        getTasksFromStorage() {
-            const tasksFromStorage = localStorage.getItem("vueTodoTasks");
-
-            if (tasksFromStorage) {
-                const parsed = JSON.parse(tasksFromStorage);
-                this.tasklist = this.handleParseDate(parsed);
-            }
-        },
-        achieveTask(index) {
-            this.tasklist[index].achieved = !this.tasklist[index].achieved;
-            if (!this.sampleView) {
-                const stringifiedTask = JSON.stringify(this.tasklist);
-                localStorage.setItem("vueTodoTasks", stringifiedTask);
-            }
-        },
-        editCurrTask(index) {
-            const currTask = this.tasklist[index];
-
-            this.editTask = true;
-            this.existingTask = currTask;
-            this.editIndex = index;
-
-            this.popCreateModal();
-        },
-        saveEditTask(task) {
-            this.tasklist[this.editIndex] = task;
-            if (!this.sampleView) {
-                const stringifiedTask = JSON.stringify(this.tasklist);
-                localStorage.setItem("vueTodoTasks", stringifiedTask);
-            }
-            this.initEditState();
-        },
-        initEditState() {
-            this.editTask = false;
-            this.existingTask = null;
-            this.editIndex = null;
+        ...mapActions([
+            "toggleModal",
+            "getTasksFromStorage",
+            "initEditState",
+            "addTask",
+            "editCurrTask",
+            "removeTask",
+            "achieveTask"
+        ]),
+        renderTasks() {
+            this.currTaskList = this.tasklist;
         },
         popCreateModal() {
-            this.createModal = !this.createModal;
-            if(!this.createModal) {
+            this.toggleModal();
+            if (!this.createModal) {
                 this.initEditState();
             }
         },
         closeModal(event) {
             if (this.createModal && event.target.id === "veil") {
-                this.initEditState();
-                this.createModal = false;
-            }
-        },
-        addTask(task) {
-            this.tasklist.push(task);
-            if (!this.sampleView) {
-                const stringifiedTask = JSON.stringify(this.tasklist);
-                localStorage.setItem("vueTodoTasks", stringifiedTask);
-            }
-        },
-        removeTask(index) {
-            const confirm = window.confirm("Remove the task?");
-            if (confirm) {
-                this.tasklist.splice(index, 1);
-                if (!this.sampleView) {
-                    const stringifiedTask = JSON.stringify(this.tasklist);
-                    localStorage.setItem("vueTodoTasks", stringifiedTask);
-                }
+                this.toggleModal();
             }
         },
         handleLabel(index) {
@@ -154,13 +100,11 @@ export default {
         },
         handleDueDate(date) {
             return renderDueDate(date);
-        },
-        handleParseDate(tasks) {
-            return renderParseDate(tasks);
         }
     },
     mounted() {
         this.getTasksFromStorage();
+        this.renderTasks();
     },
     components: {
         CreateModal,
